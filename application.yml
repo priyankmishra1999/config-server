@@ -1,17 +1,25 @@
 payment:
-   service:
-     url : http://localhost:8764/payment/price?price=
+  service:
+    url: http://localhost:8764/payment/price?price=
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
 management:
-  endpoints.web.exposure.include:
-    - '*'
-  endpoint.health.show-details: always
-  health.circuitbreakers.enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
 
 resilience4j.circuitbreaker:
   configs:
@@ -24,10 +32,11 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 5s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
+
 resilience4j.retry:
- instances:
- ProductServiceRetry:
- maxAttempts: 5
- waitDuration: 3s
- retryExceptions:
- — feign.FeignException
+  instances:
+    ProductServiceRetry:
+      maxAttempts: 5
+      waitDuration: 3s
+      retryExceptions:
+        - feign.FeignException
