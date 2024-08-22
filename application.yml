@@ -8,18 +8,13 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-
+spring:
+  jackson.serialization.indent_output: true
 management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: always
-  health:
-    circuitbreakers:
-      enabled: true
+  endpoints.web.exposure.include:
+    - '*'
+  endpoint.health.show-details: always
+  health.circuitbreakers.enabled: true
 
 resilience4j.circuitbreaker:
   configs:
@@ -32,11 +27,3 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 5s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
-
-resilience4j.retry:
-  instances:
-    ProductServiceRetry:
-      maxAttempts: 5
-      waitDuration: 3s
-      retryExceptions:
-        - feign.FeignException
