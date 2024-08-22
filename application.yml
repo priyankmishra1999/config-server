@@ -24,3 +24,10 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 5s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
+resilience4j.retry:
+ instances:
+ ProductServiceRetry:
+ maxAttempts: 5
+ waitDuration: 3s
+ retryExceptions:
+ — feign.FeignException
