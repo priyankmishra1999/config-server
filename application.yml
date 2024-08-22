@@ -19,24 +19,29 @@ management:
       show-details: always
   health:
     circuitbreakers:
+      enabled: false
+    ratelimiters:
       enabled: true
 
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      registerHealthIndicator: true
-      slidingWindowSize: 10
-      minimumNumberOfCalls: 5
-      permittedNumberOfCallsInHalfOpenState: 3
-      automaticTransitionFromOpenToHalfOpenEnabled: true
-      waitDurationInOpenState: 5s
-      failureRateThreshold: 50
-      eventConsumerBufferSize: 10
-
-resilience4j.retry:
-  instances:
-    ProductServiceRetry:
-      maxAttempts: 5
-      waitDuration: 3s
-      retryExceptions:
-        - feign.FeignException
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+  retry:
+    instances:
+      customerService:
+        maxAttempts: 3
+        waitDuration: 5s
+      ProductServiceRetry:
+        maxAttempts: 5
+        waitDuration: 3s
+        retryExceptions:
+          - feign.FeignException
